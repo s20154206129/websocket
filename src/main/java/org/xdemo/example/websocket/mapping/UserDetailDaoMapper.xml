@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xdemo.example.websocket.dao.UserDetailDao">
+	<resultMap type="UserDetail" id="userDetailResult">
+		<id property="userDetailId" column="user_detail_id" />
+		<result property="userDetailName" column="user_detail_name" />
+		<result property="userDetailNickName" column="user_detail_nickname" />
+		<result property="userDetailPassword" column="user_detail_password" />
+		<result property="userMailNumber" column="user_mail_number" />
+		<result property="userPhoneNumber" column="user_phone_number" />
+		<result property="userRegisterTime" column="user_register_time" />
+	</resultMap>
+
+	<select id="getUserDetailByName"  resultMap="userDetailResult">
+		select * from user_detail where user_detail_name=#{name}
+	</select>
+
+	<select id="getUserDetailById"  resultMap="userDetailResult">
+		select * from user_detail where user_detail_id=#{id}
+	</select>
+
+	<insert id="addUserDetail" parameterType="UserDetail">
+		INSERT INTO
+		user_detail(user_detail_name,user_detail_nickname,user_detail_password,user_mail_number
+		user_phone_number,user_register_time)
+		values(#{userDetailName},#{userDetailNickName},#{userDetailPassword},#{userMailNumber},
+		#{userPhoneNumber},
+		#{userRegisterTime})
+	</insert>
+
+	<delete id="deleteUserDetail">
+		DELETE from user_detail WHERE user_detail_id=#{id}
+	</delete>
+	
+
+	<update id="updateUserDetail"  parameterType="UserDetail">
+		UPDATE   user_detail   set
+		user_detail_name=#{userDetailName},
+		user_detail_nickname=#{userDetailNickName}, 
+		user_detail_password=#{userDetailPassword},
+		user_mail_number=#{userMailNumber},
+		user_phone_number=#{userPhoneNumber}
+		,user_register_time=#{userRegisterTime}  where user_detail_id=#{userDetailId}
+	</update>
+
+	<select id="getAllUserDetail"  resultMap="userDetailResult">
+		select * from user_detail
+	</select>
+</mapper>

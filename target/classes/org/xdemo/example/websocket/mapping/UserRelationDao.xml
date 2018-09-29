@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xdemo.example.websocket.dao.UserRelationDao">
+	<resultMap type="UserRelation" id="userRelationResult">
+		<id property="userIdA" column="user_id_a" />
+		<result property="userIdB" column="user_id_b" />
+		<result property="relationStatus" column="relation_status" />
+		<result property="relationStart" column="relation_start"
+			javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+	<select id="getUserRelation" resultMap="userRelationResult">
+		SELECT * from
+		user_relation WHERE user_id_a=#{idA} and user_id_b=#{idB}
+	</select>
+	
+	<!--getAllFriends -->
+	<select id="getAllFriends" resultType="Integer">
+		SELECT  user_id_b  from
+		user_relation WHERE  user_id_a=#{id}
+	</select>
+
+
+	<insert id="addUserRelation" parameterType="UserRelation">
+		INSERT INTO
+		user_relation(user_id_a,user_id_b,relation_status,relation_start)
+		VALUES
+		(#{userIdA},#{userIdB},#{relationStatus},#{relationStart})
+	</insert>
+
+	<!-- -->
+	<delete id="deleteUserRelation">
+		DELETE from user_relation WHERE user_id_a=#{idA} and
+		user_id_b={idB}
+	</delete>
+
+
+
+	<update id="updateUser" parameterType="userRelation">
+		UPDATE `user_relation` set
+		relation_status=#{relationStatus},
+		relation_start=#{relationStart}
+		where user_id_a=#{userIdA} and
+		user_id_b={userIdB}
+	</update>
+</mapper>

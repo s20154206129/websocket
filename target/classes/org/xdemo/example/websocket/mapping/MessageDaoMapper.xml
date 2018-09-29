@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xdemo.example.websocket.dao.MessageDao">
+	<resultMap type="Message" id="messageResult">
+		<id property="id" column="id" />
+		<result property="from" column="from_id" />
+		<result property="to" column="to_id" />
+		<result property="content" column="content" />
+		<result property="type" column="type" />
+		<result property="time" column="time" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result property="isTransport" column="is_transport" />
+
+	</resultMap>
+
+
+	<select id="getMessageByFromId" resultMap="messageResult">
+		SELECT * FROM message WHERE from_id=#{from}
+	</select>
+
+	<select id="getMessageByToId" resultMap="messageResult">
+		SELECT * FROM message WHERE to_id=#{to}
+	</select>
+
+	<!-- 获得没有接受到的消息 -->
+	<select id="getMessageUnReceive" resultMap="messageResult">
+		SELECT * FROM message WHERE to_id=#{to}
+	</select>
+	
+	<!--  获得某种类型的 消息-->
+	<select id="getMessageByType" resultMap="messageResult">
+		SELECT  * FROM   message  WHERE  type=#{type}
+	</select>
+	
+	<insert id="addMessage"  parameterType="Message">
+	      INSERT INTO  message(from_id,to_id,content,type,time,is_transport) VALUES
+	      (#{from},#{to},#{content},#{type},#{time},#{isTransport})
+	</insert>
+	
+	<!--  -->
+	<delete id="deleteMessage"  parameterType="Message">
+	   DELETE from message WHERE id=#{id}
+	</delete>
+	
+	<update  id="updateMessage"  parameterType="Message">
+	   UPDATE `message` set
+		from_id=#{from} ,to_id=#{to}, content=#{content},
+		type=#{type},
+		time=#{time}
+		,is_transport=#{isTransport} where  id=#{id}
+	</update>
+</mapper>

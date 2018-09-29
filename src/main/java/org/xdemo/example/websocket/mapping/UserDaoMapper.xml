@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xdemo.example.websocket.dao.UserDao">
+
+	<resultMap type="User" id="userResult">
+		<id property="id" column="user_id" />
+		<result property="name" column="user_name" />
+		<result property="userNickName" column="user_nickname" />
+		<result property="userIsOnline" column="user_is_online" />
+		<result property="userRole" column="user_role" />
+		<result property="userImgPath" column="user_img_path" />
+		<result property="userRelations" column="user_relations" />
+		<result property="userGroups" column="user_groups" />
+	</resultMap>
+
+	<select id="getUserByName" resultMap="userResult" >
+		select * from user where user_name=#{name}
+	</select>
+
+	<select id="getUserById" resultMap="userResult">
+		select * from user where user_id=#{id}
+	</select>
+
+	<insert id="addUser" parameterType="User">
+		INSERT INTO user(user_name,user_nickname,user_is_online,user_role
+		user_img_path,user_relations,user_groups)
+		values(#{name},#{userNickName},#{userIsOnline},#{userRole},#{userImgPath},#{userRelations},
+		#{userGroups})
+	</insert>
+
+	<delete id="deleteUser">
+		DELETE from user WHERE user_id=#{id}
+	</delete>
+
+	<update id="updateUser">
+		UPDATE `user` set
+		user_name=#{name} ,user_nickname=#{userNickName}, user_is_online=#{userIsOnline},
+		user_role=#{userRole},
+		user_img_path=#{userImgPath}
+		,user_groups=#{userRelations},user_relations=#{userGroups}  where user_id=#{id}
+	</update>
+
+	<select id="getAllUser" resultMap="userResult">
+		select * from user
+	</select>
+</mapper>
